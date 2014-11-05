@@ -5,7 +5,7 @@ var template = require('../');
 gulp.task('tmpl', function() {
     return gulp.src('./tmpl/*.html')
         .pipe(template({
-            commonjs: true,
+            // commonjs: true,
             // amd: true,
             strict: true
         }))

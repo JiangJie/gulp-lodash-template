@@ -11,23 +11,39 @@ var PLUGIN_NAME = 'gulp-lodash-template';
 module.exports = function (options) {
     options = options || {};
 
+    var _escape = 'var _ = {};\n\
+var escapeMap = {\n\
+    \'&\': \'&amp;\',\n\
+    \'<\': \'&lt;\',\n\
+    \'>\': \'&gt;\',\n\
+    \'"\': \'&quot;\',\n\
+    "\'": \'&#x27;\'\n\
+};\n\
+var escapeRegexp = new RegExp(\'[\' + Object.keys(escapeMap).join(\'\') + \']\', \'g\');\n\
+_.escape = function(string) {\n\
+    if (!string) return \'\';\n\
+    return String(string).replace(escapeRegexp, function(match) {\n\
+        return escapeMap[match];\n\
+    });\n\
+};\n';
+
     function compiler(file) {
         var template = tmpl(file.contents.toString(), false, options.templateSettings).source;
 
         var strict = options.strict ? '\'use strict;\'\n' : '';
-        var escape = 'var _ = {};\n_.escape = require(\'lodash.escape\');\n';
+        // var escape = 'var _ = {};\n_.escape = require(\'lodash.escape\');\n';
 
         var prefix;
         var postfix = '';
 
-        if(options.commonjs) prefix = strict + escape + 'module.exports = ';
+        if(options.commonjs) prefix = strict + _escape + 'module.exports = ';
         else if(options.amd) {
-            prefix = 'define(function() {\n' + strict + 'return ';
+            prefix = 'define(function() {\n' + strict + _escape + 'return ';
             postfix = '});';
         } else {
             var name = typeof options.name === 'function' && options.name(file) || file.relative;
             var namespace = options.namespace || 'JST';
-            prefix = '(function() {' + strict + '(window[\''+ namespace +'\'] = window[\''+ namespace +'\'] || {})[\''+ name.replace(/\\/g, '/') +'\'] = ';
+            prefix = '(function() {\n' + strict + _escape + '(window[\''+ namespace +'\'] = window[\''+ namespace +'\'] || {})[\''+ name.replace(/\\/g, '/') +'\'] = ';
             postfix = '})();';
         }
 
