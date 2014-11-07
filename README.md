@@ -35,6 +35,7 @@ Type: `Object`
 #### options.strict
 Type: `Boolean`
 Default: false
+
 Add `use strict;` at the first line of the compiled template function.
 
 #### options.commonjs
