@@ -31,19 +31,19 @@ _.escape = function(string) {\n\
         var template = tmpl(file.contents.toString(), false, options.templateSettings).source;
 
         var strict = options.strict ? '\'use strict;\'\n' : '';
-        // var escape = 'var _ = {};\n_.escape = require(\'lodash.escape\');\n';
+        var escape = options.noescape ? 'var _ = {};\n' : _escape;
 
         var prefix;
         var postfix = '';
 
-        if(options.commonjs) prefix = strict + _escape + 'module.exports = ';
+        if(options.commonjs) prefix = strict + escape + 'module.exports = ';
         else if(options.amd) {
-            prefix = 'define(function() {\n' + strict + _escape + 'return ';
+            prefix = 'define(function() {\n' + strict + escape + 'return ';
             postfix = '});';
         } else {
             var name = typeof options.name === 'function' && options.name(file) || file.relative;
             var namespace = options.namespace || 'JST';
-            prefix = '(function() {\n' + strict + _escape + '(window[\''+ namespace +'\'] = window[\''+ namespace +'\'] || {})[\''+ name.replace(/\\/g, '/') +'\'] = ';
+            prefix = '(function() {\n' + strict + escape + '(window[\''+ namespace +'\'] = window[\''+ namespace +'\'] || {})[\''+ name.replace(/\\/g, '/') +'\'] = ';
             postfix = '})();';
         }
 
