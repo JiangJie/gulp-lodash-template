@@ -38,6 +38,10 @@ Default: false
 
 Add `use strict;` at the first line of the compiled template function.
 
+#### options.es6module
+Type: `Boolean`
+Default: false
+
 #### options.commonjs
 Type: `Boolean`
 Default: false

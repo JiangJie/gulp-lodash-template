@@ -1,6 +1,6 @@
 {
   "name": "gulp-lodash-template",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "gulp plugin compile lodash template to a function",
   "main": "index.js",
   "scripts": {

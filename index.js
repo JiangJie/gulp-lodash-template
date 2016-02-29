@@ -36,7 +36,8 @@ _.escape = function(string) {\n\
         var prefix;
         var postfix = '';
 
-        if(options.commonjs) prefix = strict + escape + 'module.exports = ';
+        if(options.es6module) prefix = strict + escape + 'export default ';
+        else if(options.commonjs) prefix = strict + escape + 'module.exports = ';
         else if(options.amd) {
             prefix = 'define(function() {\n' + strict + escape + 'return ';
             postfix = '});';
