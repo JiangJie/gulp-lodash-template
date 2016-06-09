@@ -11,7 +11,7 @@ var PLUGIN_NAME = 'gulp-lodash-template';
 module.exports = function (options) {
     options = options || {};
 
-    var _escape = 'var _ = {};\n\
+    var _escape = 'var _ = window._ || {};\n\
 var escapeMap = {\n\
     \'&\': \'&amp;\',\n\
     \'<\': \'&lt;\',\n\
